@@ -107,7 +107,10 @@ def test_get_mouse_click(x, y):
     print(x, y)  # mouse coordinates
     if -300 < x < 300 and -300 < y < 300:
         # Convert mouse coordinates to row, col of the grid
+        # Distance from center to first gid line = 100
         row, col = (math.ceil((100 - y) / 200), math.ceil((100 + x) / 200))
+        print("x = ", x, (100 + x) / 200, math.ceil((100 + x) / 200))
+        print("y = ", y, (100 - y) / 200, math.ceil((100 - y) / 200))
         if last_drawn == "X":
             screen.draw_o(row, col)
             last_drawn = "O"
