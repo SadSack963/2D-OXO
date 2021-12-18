@@ -1,5 +1,6 @@
 from math import ceil
 from turtle import onscreenclick
+from global_vars import *
 
 
 class HumanPlayer:
@@ -32,6 +33,7 @@ class HumanPlayer:
         :param y: mouse click y coordinate from turtle.onscreenclick()
         :return: nothing
         """
-        if -300 < x < 300 and -300 < y < 300:
+        if -BORDER_LINE_COORD < x < BORDER_LINE_COORD and -BORDER_LINE_COORD < y < BORDER_LINE_COORD:
             # Convert mouse coordinates to row, col of the grid
-            self.row, self.col = (ceil((100 - y) / 200), ceil((100 + x) / 200))
+            self.row, self.col = (ceil((GRID_OFFSET - y) / GRID_LINE_INCREMENT),
+                                  ceil((GRID_OFFSET + x) / GRID_LINE_INCREMENT))

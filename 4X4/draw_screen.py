@@ -1,20 +1,7 @@
-import math
+from math import ceil
 from turtle import Turtle, Screen, onscreenclick
 from time import sleep
-
-DARK = (60, 60, 60)
-DIMENSION = 4  # i.e. 4 = 4 x 4 grid
-WINDOW_SIZE = 600
-GRID_SIZE = round(WINDOW_SIZE * 6 / 7)  # Leaves an empty border around the outside of the grid
-BORDER_LINE_COORD = round(GRID_SIZE / 2)
-GRID_LINE_INCREMENT = round(GRID_SIZE / DIMENSION)
-PADDING = GRID_LINE_INCREMENT * 0.15
-X_TOP_LEFT = BORDER_LINE_COORD - PADDING
-X_SIZE = GRID_LINE_INCREMENT - PADDING * 2
-O_CENTER_X = BORDER_LINE_COORD - GRID_LINE_INCREMENT / 2
-O_START_Y = BORDER_LINE_COORD - GRID_LINE_INCREMENT + PADDING
-O_RADIUS = X_SIZE / 2
-GRID_OFFSET = BORDER_LINE_COORD - GRID_LINE_INCREMENT
+from global_vars import *
 
 
 class DrawScreen:
@@ -81,8 +68,8 @@ class DrawScreen:
         :return: nothing
         """
         self.window.tracer(0)
-        start_x = col * GRID_LINE_INCREMENT - X_TOP_LEFT
-        start_y = X_TOP_LEFT - row * GRID_LINE_INCREMENT
+        start_x = col * GRID_LINE_INCREMENT - X_START
+        start_y = X_START - row * GRID_LINE_INCREMENT
         self.tim.hideturtle()
         self.tim.width(4)
         self.tim.color('white')
@@ -123,9 +110,8 @@ def test_get_mouse_click(x, y):
     print(x, y)  # mouse coordinates
     if -BORDER_LINE_COORD < x < BORDER_LINE_COORD and -BORDER_LINE_COORD < y < BORDER_LINE_COORD:
         # Convert mouse coordinates to row, col of the grid
-        # Distance from center to first gid line = 100
-        row, col = (math.ceil((GRID_OFFSET - y) / GRID_LINE_INCREMENT),
-                    math.ceil((GRID_OFFSET + x) / GRID_LINE_INCREMENT))
+        row, col = (ceil((GRID_OFFSET - y) / GRID_LINE_INCREMENT),
+                    ceil((GRID_OFFSET + x) / GRID_LINE_INCREMENT))
         print(row, col)
         if last_drawn == "X":
             screen.draw_o(row, col)

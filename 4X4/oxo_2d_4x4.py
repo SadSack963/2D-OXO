@@ -14,9 +14,6 @@ from options import Options
 from draw_screen import DrawScreen
 
 
-# BUG: Do not allow to click on an already occupied square!
-
-
 def draw_grid(screen):
     """
     Draw the game_state grid layout.
@@ -59,9 +56,13 @@ def get_move(player, screen):
     :param player: Human or AI player
     :return: bool True if the game is ending (either a winner or a tie)
     """
-    player.get_move(screen=screen)
+    # Ensure that the player cannot click on an occupied square
+    while True:
+        player.get_move(screen=screen)
+        if global_vars.board[player.row][player.col] == 0:
+            global_vars.board[player.row][player.col] = player.value
+            break
 
-    global_vars.board[player.row][player.col] = player.value
     draw_move(player, screen)
     return check_for_winner(player)
 

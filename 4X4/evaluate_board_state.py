@@ -1,5 +1,6 @@
 import global_vars
 import numpy as np
+from global_vars import DIMENSION
 
 
 def evaluate_board(game_state: np.ndarray):
@@ -13,29 +14,43 @@ def evaluate_board(game_state: np.ndarray):
              or None if the game_state is not full and there is no winner yet
     """
     # Rows
-    for row in range(3):
-        if game_state[row][0] != 0 \
-                and game_state[row][0] == game_state[row][1] \
-                and game_state[row][0] == game_state[row][2]:
-            return game_state[row][0]
+    for row in range(DIMENSION):
+        if game_state[row][0] != 0:
+            complete = game_state[row][0]
+            for space in range(DIMENSION):
+                if game_state[row][0] != game_state[row][space]:
+                    complete = 0
+                    break
+            if complete != 0:
+                return complete
 
     # Columns
-    for col in range(3):
-        if game_state[0][col] != 0 \
-                and game_state[0][col] == game_state[1][col] \
-                and game_state[0][col] == game_state[2][col]:
-            return game_state[0][col]
+    for col in range(DIMENSION):
+        if game_state[0][col] != 0:
+            complete = game_state[0][col]
+            for space in range(DIMENSION):
+                if game_state[0][col] != game_state[space][col]:
+                    complete = 0
+                    break
+            if complete != 0:
+                return complete
 
     # Diagonals
-    if game_state[0][0] != 0 \
-            and game_state[0][0] == game_state[1][1] \
-            and game_state[0][0] == game_state[2][2]:
-        return game_state[0][0]
+    if game_state[0][0] != 0:
+        complete = game_state[0][0]
+        for space in range(DIMENSION):
+            if game_state[0][0] != game_state[space][space]:
+                complete = 0
+        if complete != 0:
+            return complete
 
-    if game_state[0][2] != 0 \
-            and game_state[0][2] == game_state[1][1] \
-            and game_state[0][2] == game_state[2][0]:
-        return game_state[0][2]
+    if game_state[0][DIMENSION - 1] != 0:
+        complete = game_state[0][DIMENSION - 1]
+        for space in range(DIMENSION):
+            if game_state[0][DIMENSION - 1] != game_state[space][- space - 1]:
+                complete = 0
+        if complete != 0:
+            return complete
 
     # Check if the game_state is full
     if np.all(game_state):

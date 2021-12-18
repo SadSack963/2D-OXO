@@ -2,6 +2,7 @@ import global_vars
 from math import inf
 import numpy as np
 from evaluate_board_state import evaluate_board
+from global_vars import *
 
 
 class AIPlayer:
@@ -40,8 +41,9 @@ class AIPlayer:
         alpha = -inf
         beta = inf
 
-        for i in range(3):
-            for j in range(3):
+        for i in range(DIMENSION):
+            for j in range(DIMENSION):
+                print("test move", i, j)
                 if self.game_state[i][j] == 0:  # check that the spot is free
                     self.game_state[i][j] = self.value  # make a test move
                     score = self.minimax(self.game_state, alpha, beta, maximizing=False)  # next player is Minimizing player
@@ -84,8 +86,9 @@ class AIPlayer:
 
         if maximizing:  # Maximizing: looking for the highest score
             best_score = -inf
-            for i in range(3):
-                for j in range(3):
+            for i in range(DIMENSION):
+                for j in range(DIMENSION):
+                    # print("maximizing", i, j)
                     if test_state[i][j] == 0:  # is the spot free
                         test_state[i][j] = self.value  # make a test move
                         score = self.minimax(test_state, alpha, beta, maximizing=False)  # next player is Minimizing player
@@ -102,8 +105,9 @@ class AIPlayer:
 
         else:  # Minimizing: looking for the lowest score
             best_score = inf
-            for i in range(3):
-                for j in range(3):
+            for i in range(DIMENSION):
+                for j in range(DIMENSION):
+                    # print("Minimizing", i, j)
                     if test_state[i][j] == 0:  # is the spot free
                         test_state[i][j] = self.opposition_value  # make a test move
                         score = self.minimax(test_state, alpha, beta, maximizing=True)  # next player is Maximizing player

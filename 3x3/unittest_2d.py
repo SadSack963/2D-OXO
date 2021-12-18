@@ -4,6 +4,7 @@ import numpy as np
 from evaluate_board_state import evaluate_board
 import global_vars
 
+
 class TestWin(unittest.TestCase):
 
     def test_win_column(self):
@@ -42,8 +43,8 @@ class TestWin(unittest.TestCase):
         ])
         self.assertIsNone(evaluate_board(board), "Should be None")
 
-    def test_win_tie(self):
-        print('test_win_tie')
+    def test_tie(self):
+        print('test_tie')
         board = np.array([
             [1, 2, 1],
             [1, 1, 2],
@@ -51,8 +52,8 @@ class TestWin(unittest.TestCase):
         ])
         self.assertEqual(0, evaluate_board(board), "Should be 0")
 
-    def test_win_tie_2(self):
-        print('test_win_tie')
+    def test_tie_2(self):
+        print('test_tie')
         board = np.array([
             [2, 2, 1],
             [1, 1, 2],
