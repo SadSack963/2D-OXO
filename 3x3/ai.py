@@ -40,8 +40,13 @@ class AIPlayer:
         alpha = -inf
         beta = inf
 
+        # ############################################
+        #    Acceptable speed - 9! possible results
+        # ############################################
+
         for i in range(3):
             for j in range(3):
+                # print("test move", i, j)
                 if self.game_state[i][j] == 0:  # check that the spot is free
                     self.game_state[i][j] = self.value  # make a test move
                     score = self.minimax(self.game_state, alpha, beta, maximizing=False)  # next player is Minimizing player
@@ -86,6 +91,7 @@ class AIPlayer:
             best_score = -inf
             for i in range(3):
                 for j in range(3):
+                    print("Maximizing", i, j)
                     if test_state[i][j] == 0:  # is the spot free
                         test_state[i][j] = self.value  # make a test move
                         score = self.minimax(test_state, alpha, beta, maximizing=False)  # next player is Minimizing player
@@ -104,6 +110,7 @@ class AIPlayer:
             best_score = inf
             for i in range(3):
                 for j in range(3):
+                    print("Minimizing", i, j)
                     if test_state[i][j] == 0:  # is the spot free
                         test_state[i][j] = self.opposition_value  # make a test move
                         score = self.minimax(test_state, alpha, beta, maximizing=True)  # next player is Maximizing player

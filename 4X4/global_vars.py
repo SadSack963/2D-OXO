@@ -6,8 +6,10 @@ from messenger import Messenger
 import numpy as np
 
 
-DARK = (60, 60, 60)  # Background colour
+# Playing Grid Dimension
 DIMENSION = 4  # i.e. 4 = 4 x 4 grid
+
+DARK = (60, 60, 60)  # Background colour
 WINDOW_SIZE = 600  # i.e. height, width
 
 GRID_SIZE = round(WINDOW_SIZE * 6 / 7)  # Leaves an empty border around the outside of the grid
@@ -23,7 +25,6 @@ O_RADIUS = X_SIZE / 2  # O radius
 
 GRID_OFFSET = BORDER_LINE_COORD - GRID_LINE_INCREMENT  # Distance from center of the window to the first grid line
 
-
 # Define the matrix representing the game_state
 board = np.zeros(shape=(DIMENSION, DIMENSION), dtype=int)
 
@@ -32,3 +33,6 @@ player_msg = Messenger(
     font_size=24,
     font_type="bold italic",
 )
+
+# Maximum moves to check in minimax
+MAX_LOOKAHEAD = 6

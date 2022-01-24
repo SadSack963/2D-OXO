@@ -41,21 +41,26 @@ class AIPlayer:
         alpha = -inf
         beta = inf
 
+        # ############################################################
+        #    Works, but is incredibly slow!! - 16! possible results
+        #    Need to add depth of look ahead.
+        # ############################################################
+
         for i in range(DIMENSION):
             for j in range(DIMENSION):
-                print("test move", i, j)
+                # print("test move", i, j)
                 if self.game_state[i][j] == 0:  # check that the spot is free
                     self.game_state[i][j] = self.value  # make a test move
-                    score = self.minimax(self.game_state, alpha, beta, maximizing=False)  # next player is Minimizing player
+                    score = self.minimax(self.game_state, alpha, beta, maximizing=False, depth=MAX_LOOKAHEAD)  # next player is Minimizing player
                     self.game_state[i][j] = 0  # undo the test move
                     if score > best_score:
                         best_score = score
                         best_move = (i, j)
-        print(f'AI move: {best_move[0]} {best_move[1]}')
+        # print(f'AI move: {best_move[0]} {best_move[1]}')
         self.row = best_move[0]
         self.col = best_move[1]
 
-    def minimax(self, test_state: np.ndarray, alpha: float, beta: float, maximizing: bool):
+    def minimax(self, test_state: np.ndarray, alpha: float, beta: float, maximizing: bool, depth: int):
         """
         Test moves at every remaining position on the game_state to find the best possible move. \n
         Maximizing player (current AI player) looks for the highest score. \n
@@ -68,8 +73,13 @@ class AIPlayer:
         :param alpha: best (highest) score so far for maximizing player
         :param beta: best (lowest) score so far for minimizing player
         :param maximizing: this player is maximizing if True (or minimizing if False)
+        :param depth: How far to look ahead
         :return: best score for the current test move
         """
+
+        # Limit of look ahead
+        if depth == 0:
+            return 0
 
         # count the number of zero values in the game_state
         # add 1 because this is used as a multiplier and should never be zero
@@ -88,10 +98,10 @@ class AIPlayer:
             best_score = -inf
             for i in range(DIMENSION):
                 for j in range(DIMENSION):
-                    # print("maximizing", i, j)
+                    # print("Maximizing", i, j)
                     if test_state[i][j] == 0:  # is the spot free
                         test_state[i][j] = self.value  # make a test move
-                        score = self.minimax(test_state, alpha, beta, maximizing=False)  # next player is Minimizing player
+                        score = self.minimax(test_state, alpha, beta, maximizing=False, depth=depth - 1)  # next player is Minimizing player
                         test_state[i][j] = 0  # undo the test move
                         best_score = max(score, best_score)
 
@@ -110,7 +120,7 @@ class AIPlayer:
                     # print("Minimizing", i, j)
                     if test_state[i][j] == 0:  # is the spot free
                         test_state[i][j] = self.opposition_value  # make a test move
-                        score = self.minimax(test_state, alpha, beta, maximizing=True)  # next player is Maximizing player
+                        score = self.minimax(test_state, alpha, beta, maximizing=True, depth=depth - 1)  # next player is Maximizing player
                         test_state[i][j] = 0  # undo the test move
                         best_score = min(score, best_score)
 
