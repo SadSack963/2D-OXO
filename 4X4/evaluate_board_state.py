@@ -16,41 +16,41 @@ def evaluate_board(game_state: np.ndarray):
     # Rows
     for row in range(DIMENSION):
         if game_state[row][0] != 0:
-            complete = game_state[row][0]
-            for space in range(DIMENSION):
-                if game_state[row][0] != game_state[row][space]:
-                    complete = 0
+            winner = game_state[row][0]
+            for col in range(DIMENSION):
+                if game_state[row][0] != game_state[row][col]:
+                    winner = 0
                     break
-            if complete != 0:
-                return complete
+            if winner != 0:
+                return winner
 
     # Columns
     for col in range(DIMENSION):
         if game_state[0][col] != 0:
-            complete = game_state[0][col]
-            for space in range(DIMENSION):
-                if game_state[0][col] != game_state[space][col]:
-                    complete = 0
+            winner = game_state[0][col]
+            for row in range(DIMENSION):
+                if game_state[0][col] != game_state[row][col]:
+                    winner = 0
                     break
-            if complete != 0:
-                return complete
+            if winner != 0:
+                return winner
 
     # Diagonals
     if game_state[0][0] != 0:
-        complete = game_state[0][0]
-        for space in range(DIMENSION):
-            if game_state[0][0] != game_state[space][space]:
-                complete = 0
-        if complete != 0:
-            return complete
+        winner = game_state[0][0]
+        for row_col in range(DIMENSION):
+            if game_state[0][0] != game_state[row_col][row_col]:
+                winner = 0
+        if winner != 0:
+            return winner
 
     if game_state[0][DIMENSION - 1] != 0:
-        complete = game_state[0][DIMENSION - 1]
-        for space in range(DIMENSION):
-            if game_state[0][DIMENSION - 1] != game_state[space][- space - 1]:
-                complete = 0
-        if complete != 0:
-            return complete
+        winner = game_state[0][DIMENSION - 1]
+        for row_col in range(DIMENSION):
+            if game_state[0][DIMENSION - 1] != game_state[row_col][- row_col - 1]:
+                winner = 0
+        if winner != 0:
+            return winner
 
     # Check if the game_state is full
     if np.all(game_state):

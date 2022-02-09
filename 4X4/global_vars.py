@@ -9,6 +9,9 @@ import numpy as np
 # Playing Grid Dimension
 DIMENSION = 4  # i.e. 4 = 4 x 4 grid
 
+# Maximum moves to check in minimax
+MAX_LOOKAHEAD = 5
+
 DARK = (60, 60, 60)  # Background colour
 WINDOW_SIZE = 600  # i.e. height, width
 
@@ -33,6 +36,3 @@ player_msg = Messenger(
     font_size=24,
     font_type="bold italic",
 )
-
-# Maximum moves to check in minimax
-MAX_LOOKAHEAD = 6

@@ -3,7 +3,7 @@ from math import inf
 import numpy as np
 from evaluate_board_state import evaluate_board
 from global_vars import *
-from heuristics import heuristic_value
+from heuristics import heuristic_score
 
 class AIPlayer:
     def __init__(self, value: int):
@@ -55,7 +55,7 @@ class AIPlayer:
                     score = self.minimax(self.game_state, alpha, beta, maximizing=False, depth=MAX_LOOKAHEAD)  # next player is Minimizing player
                     # Minimax depth limit reached. Get the heuristic score
                     if score == 0:
-                        score = heuristic_value(test_move=(i, j), game_state=self.game_state)
+                        score = heuristic_score(test_move=(i, j), game_state=self.game_state)
                     self.game_state[i][j] = 0  # undo the test move
                     if score > best_score:
                         best_score = score
