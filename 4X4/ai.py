@@ -3,7 +3,7 @@ from math import inf
 import numpy as np
 from evaluate_board_state import evaluate_board
 from global_vars import *
-
+from heuristics import heuristic_value
 
 class AIPlayer:
     def __init__(self, value: int):
@@ -41,10 +41,11 @@ class AIPlayer:
         alpha = -inf
         beta = inf
 
-        # ############################################################
-        #    Works, but is incredibly slow!! - 16! possible results
-        #    Need to add depth of look ahead.
-        # ############################################################
+        # ####################################################################
+        #    With 3x3 grid there are 9! possible results (362,880)
+        #    With 4x4 grid there are 16! possible results (20,922,789,888,000)
+        #    We have to limit the depth of look ahead.
+        # ####################################################################
 
         for i in range(DIMENSION):
             for j in range(DIMENSION):
@@ -52,6 +53,9 @@ class AIPlayer:
                 if self.game_state[i][j] == 0:  # check that the spot is free
                     self.game_state[i][j] = self.value  # make a test move
                     score = self.minimax(self.game_state, alpha, beta, maximizing=False, depth=MAX_LOOKAHEAD)  # next player is Minimizing player
+                    # Minimax depth limit reached. Get the heuristic score
+                    if score == 0:
+                        score = heuristic_value(test_move=(i, j), game_state=self.game_state)
                     self.game_state[i][j] = 0  # undo the test move
                     if score > best_score:
                         best_score = score
@@ -78,6 +82,16 @@ class AIPlayer:
         """
 
         # Limit of look ahead
+        # #################################################################
+        # Calculate a heuristic score.
+        # + 100 for EACH 3-in-a-line (with 1 empty cell)
+        # +  10 for EACH two-in-a-line (with 2 empty cells)
+        # +   1 for EACH one-in-a-line (with 3 empty cells)
+        # Negate scores for opponent positions
+        #
+        # Store the location in a list (positions with the same scores).
+        # When all tests are done, choose a random location from the list.
+        # #################################################################
         if depth == 0:
             return 0
 
